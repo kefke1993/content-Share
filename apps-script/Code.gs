@@ -4,7 +4,7 @@
   Resumable Upload session aanmaakt bij de Google Drive API en de session-URL terugstuurt.
 
   Belangrijk:
-  - Vul TARGET_FOLDER_ID in met de map-ID van jouw Drive-doelmap.
+  - TARGET_FOLDER_ID is ingevuld met de map-ID die je gaf.
   - Vul GITHUB_PAGES_ORIGIN in met jouw GitHub Pages origin, bv:
       const GITHUB_PAGES_ORIGIN = "https://kefke1993.github.io";
     Deze wordt gebruikt bij het aanmaken van de Drive upload sessie zodat de browser later CORS-toegang heeft.
@@ -15,9 +15,9 @@
     om de browser-preflight te vermijden (zoals gevraagd).
 */
 
-/* ===== Configuratie: vul deze waarden vóór deployment ===== */
-const TARGET_FOLDER_ID = "VUL_HIER_JE_MAP_ID_IN"; // Bijvoorbeeld "0B0...abc"
-const GITHUB_PAGES_ORIGIN = "https://kefke1993.github.io"; // Vervang door jouw origin
+/* ===== Configuratie: ingevulde map-ID van jouw Drive ===== */
+const TARGET_FOLDER_ID = "166BykGR3Vw0LC9_5952BK30PwQonKUjy"; // Map-ID ingevuld door gebruiker
+const GITHUB_PAGES_ORIGIN = "https://kefke1993.github.io"; // Vervang door jouw origin indien nodig
 
 /* ===== doPost - entrypoint voor webapp ===== */
 function doPost(e) {
