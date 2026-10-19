@@ -118,6 +118,18 @@ body{
   margin-bottom:12px;
 }
 
+/* Name input styling */
+.name-input{
+  height:44px;
+  min-width:160px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(74,59,50,0.08);
+  background:transparent;
+  color:var(--text);
+  font-size:15px;
+}
+
 /* Buttons */
 .primary-button, .secondary-button{
   height:var(--button-height);
@@ -144,8 +156,8 @@ body{
 }
 
 /* Focus styles */
-.primary-button:focus, .secondary-button:focus{
-  outline:3px solid rgba(196,122,90,0.18);
+.primary-button:focus, .secondary-button:focus, .name-input:focus{
+  outline:3px solid rgba(196,122,90,0.12);
   outline-offset:3px;
 }
 

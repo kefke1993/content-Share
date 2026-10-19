@@ -12,6 +12,7 @@ const overallProgress = document.getElementById('overallProgress');
 const warningBox = document.getElementById('warning');
 const thanksBox = document.getElementById('thanks');
 const addMoreButton = document.getElementById('addMoreButton');
+const guestNameInput = document.getElementById('guestNameInput');
 
 let wakeLock = null;
 let uploadingCount = 0;
@@ -107,7 +108,11 @@ function createFileCard(item) {
     // Haal item en zet opnieuw in queue via uploadController
     retryBtn.disabled = true;
     status.textContent = 'Opnieuw proberen...';
-    uploadController.addFiles([item.file], createCallbacksForItem(item));
+    const entry = fileItems.get(item.id);
+    if (entry) {
+      // Zorg dat we hergebruiken dezelfde unieke naam
+      uploadController.addFiles([{ file: entry.item.file, uniqueName: entry.item.uniqueName }], createCallbacksForItem(entry.item));
+    }
   });
 
   progressWrap.appendChild(retryBtn);
@@ -212,16 +217,17 @@ function createCallbacksForItem(item) {
 
 /* ===== Bestandsselectie & drag & drop ===== */
 function handleFilesSelected(fileList) {
+  const guestName = guestNameInput && guestNameInput.value ? guestNameInput.value.trim() : '';
   const filesArray = Array.from(fileList);
-  const items = filesArray.map(f => ({ file: f, uniqueName: makeUniqueFilename(f.name), id: Math.random().toString(36).slice(2,9)}));
+  const items = filesArray.map(f => ({ file: f, uniqueName: makeUniqueFilename(f.name, guestName), id: Math.random().toString(36).slice(2,9)}));
 
   // Maak DOM kaarten en voeg toe aan uploadController met originele File objects
   items.forEach(it => {
     const domItem = { file: it.file, uniqueName: it.uniqueName, id: it.id };
     const li = createFileCard(domItem);
     filesList.appendChild(li);
-    // Gebruik uploadController to add actual File
-    uploadController.addFiles([it.file], createCallbacksForItem({ ...domItem, file: it.file }));
+    // Gebruik uploadController to add actual File, geef dezelfde uniqueName zodat Drive bestandsnaam consistent blijft
+    uploadController.addFiles([{ file: it.file, uniqueName: it.uniqueName }], createCallbacksForItem({ ...domItem, file: it.file }));
   });
 
   // UI: show warning
@@ -236,7 +242,7 @@ chooseFilesButton.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', (e) => {
   const f = e.target.files;
   if (f && f.length) handleFilesSelected(f);
-  // Reset input zo same files can be selected again
+  // Reset input so same files can be selected again
   fileInput.value = '';
 });
 

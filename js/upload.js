@@ -10,10 +10,12 @@
 /* ==================== Helpers en types ==================== */
 
 /**
- * Maak een unieke bestandsnaam: timestamp + korte random code + originele naam
- * Voorbeeld: 20261019T210305-5gk2a-IMG_1234.mov
+ * Maak een unieke bestandsnaam:
+ * - optioneel: als guestName is opgegeven komt die vóór de originele bestandsnaam
+ * - formaat: timestamp-rnd-[guest]-originalName
+ * Voorbeeld: 20261019T210305-5gk2a-KevinJ-IMG_1234.mov
  */
-function makeUniqueFilename(originalName) {
+function makeUniqueFilename(originalName, guestName) {
   const pad = (n, len = 2) => String(n).padStart(len, '0');
   const d = new Date();
   const timestamp = d.getFullYear()
@@ -23,7 +25,15 @@ function makeUniqueFilename(originalName) {
     + pad(d.getMinutes())
     + pad(d.getSeconds());
   const rnd = Math.random().toString(36).slice(2, 7);
-  return `${timestamp}-${rnd}-${originalName}`;
+
+  let safeGuest = '';
+  if (guestName) {
+    // Vereenvoudig de gastnaam: verwijder vreemde tekens en vervang spaties door underscore
+    safeGuest = String(guestName).trim().replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_\-]/g, '');
+    if (safeGuest) safeGuest = safeGuest + '-';
+  }
+
+  return `${timestamp}-${rnd}-${safeGuest}${originalName}`;
 }
 
 /* Parse "Range" header zoals "bytes=0-12345" => return laatste byte number, of -1 indien niet aanwezig */
@@ -222,7 +232,7 @@ async function uploadFileInChunks(sessionUrl, file, onProgress) {
 
 /*
   Exposeer één functie: startUploads(files, callbacks)
-  - files: FileList of Array<File>
+  - files: FileList of Array<File> or Array<{file, uniqueName}>
   - callbacks: {onFileStart, onFileProgress, onFileDone, onFileFailed, onOverallProgress}
 */
 const uploadController = (function () {
@@ -270,9 +280,11 @@ const uploadController = (function () {
 
   function addFiles(fileArray, callbacks) {
     for (const f of fileArray) {
-      const unique = makeUniqueFilename(f.name);
+      // f can be a File or an object {file, uniqueName}
+      const fileObj = f.file ? f.file : f;
+      const unique = (f.uniqueName) ? f.uniqueName : makeUniqueFilename(fileObj.name);
       queue.push({
-        file: f,
+        file: fileObj,
         uniqueName: unique,
         callbacks,
         id: Math.random().toString(36).slice(2,9)
