@@ -1,0 +1,253 @@
+:root {
+    --bg-color: #F7F4EF;
+    --card-bg: #FFFFFF;
+    --primary-color: #8C6D53; /* Warme terracotta / koper */
+    --accent-color: #C2A68C;
+    --soft-green: #586A55; /* Eucalyptus */
+    --text-color: #4A4238;
+    --text-light: #8C8275;
+    --border-color: #E6E0D5;
+    --error-color: #B25A42;
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Montserrat', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.wedding-container {
+    width: 100%;
+    max-width: 500px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(140, 109, 83, 0.08);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.wedding-header {
+    text-align: center;
+    padding: 35px 20px 20px 20px;
+    background: linear-gradient(to bottom, #FAF8F5, var(--card-bg));
+}
+
+.subtitle {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+.wedding-header h1 {
+    font-family: var(--font-serif);
+    font-size: 2.4rem;
+    color: var(--primary-color);
+    margin: 8px 0;
+    font-weight: 500;
+}
+
+.date {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.upload-card {
+    padding: 20px 30px 35px 30px;
+    position: relative;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-color);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    background: #FAF8F5;
+    color: var(--text-color);
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: #FFF;
+}
+
+.file-drop-zone {
+    border: 2px dashed var(--accent-color);
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    background: #FAF8F5;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    margin-bottom: 20px;
+}
+
+.file-drop-zone:hover, .file-drop-zone.dragover {
+    background: #F3ECE1;
+    border-color: var(--primary-color);
+}
+
+.file-drop-zone input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.heart-icon {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.main-text {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.sub-text {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.file-list {
+    max-height: 150px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+    background: #FAF8F5;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.file-item:last-child {
+    border-bottom: none;
+}
+
+.submit-btn, .secondary-btn {
+    width: 100%;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 650;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.submit-btn:hover:not(:disabled) {
+    background-color: #735742;
+}
+
+.submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    margin-top: 15px;
+}
+
+.secondary-btn:hover {
+    background-color: #FAF8F5;
+}
+
+.loading-overlay, .success-message {
+    text-align: center;
+    padding: 30px 10px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border-color);
+    border-top: 3px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.success-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.success-message h2 {
+    font-family: var(--font-serif);
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.success-message p {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.wedding-footer {
+    text-align: center;
+    padding: 15px;
+    background: #FAF8F5;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.75rem;
+    color: var(--text-light);
+    letter-spacing: 1px;
+}
